@@ -17,7 +17,7 @@ var rootCmd = &cobra.Command{
 	Use:   "aoc",
 	Short: "Run an Advent of Code problem; just provide day number (e.g. \"1\") with optional \".2\" for part 2 of the problem",
 	Run:   GetDayArgsAndExecute,
-	Args:  cobra.ExactArgs(2),
+	Args:  cobra.RangeArgs(1, 2),
 }
 
 func Execute() {
@@ -71,5 +71,11 @@ func GetDayArgsAndExecute(cmd *cobra.Command, args []string) {
 		fmt.Println("day provided is too high; there isn't a function for the provided day.")
 		return
 	}
-	dayFuncs[day-1](len(parts) > 1, args[1])
+	var filename string
+	if len(args) == 2 {
+		filename = fmt.Sprintf("inputs/%02d%s.txt", day, args[1])
+	} else {
+		filename = fmt.Sprintf("inputs/%02d.txt", day)
+	}
+	dayFuncs[day-1](len(parts) > 1, filename)
 }

@@ -3,12 +3,13 @@ package probs
 import (
 	"aoc/utils"
 	"fmt"
+	"slices"
 	"strconv"
 )
 
 var elvesInv []int
 
-func Day01(isDayTwo bool, inFile string) {
+func Day01(isPartTwo bool, inFile string) {
 	lines := utils.GetLinesFromFile(inFile)
 	elvesInv = make([]int, 0)
 	elvesInv = append(elvesInv, 0)
@@ -32,4 +33,11 @@ func Day01(isDayTwo bool, inFile string) {
 
 	fmt.Println("highest inv elf:", highestElfInd+1)
 	fmt.Println("highest inv", highestInv)
+
+	if !isPartTwo {
+		return
+	}
+	slices.Sort(elvesInv)
+	slices.Reverse(elvesInv)
+	fmt.Println("top three elves inv:", elvesInv[0]+elvesInv[1]+elvesInv[2])
 }
