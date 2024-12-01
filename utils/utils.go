@@ -38,6 +38,10 @@ func GetByteArrayNoNewlinesFromFile(inFile string) ([]byte, int, int) {
 	lines := bytes.Split(byteArray, []byte{'\n'})
 	width := len(lines[0])
 	height := len(lines)
+	// decrement height if input file ends with an empty newline
+	if len(lines[len(lines)-1]) == 0 {
+		height--
+	}
 	data := bytes.ReplaceAll(byteArray, []byte{'\n'}, []byte{})
 	return data, width, height
 }
