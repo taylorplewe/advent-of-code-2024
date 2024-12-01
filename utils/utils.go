@@ -45,3 +45,14 @@ func GetByteArrayNoNewlinesFromFile(inFile string) ([]byte, int, int) {
 	data := bytes.ReplaceAll(byteArray, []byte{'\n'}, []byte{})
 	return data, width, height
 }
+
+/*
+Go's standard library Abs() function only does floats, which is annoying.
+*/
+func IntAbs(val int) int {
+	if val > 0 {
+		return val
+	} else {
+		return (val ^ -1) + 1
+	}
+}

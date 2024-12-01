@@ -42,11 +42,7 @@ func Day01(isPartTwo bool, inFile string) {
 
 		totalDiff := 0
 		for i := range leftNums {
-			if rightNums[i] > leftNums[i] {
-				totalDiff += rightNums[i] - leftNums[i]
-			} else {
-				totalDiff += leftNums[i] - rightNums[i]
-			}
+			totalDiff += utils.IntAbs(leftNums[i] - rightNums[i])
 		}
 
 		// fmt.Println(leftNums)
