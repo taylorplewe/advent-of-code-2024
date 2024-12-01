@@ -7,6 +7,9 @@ import (
 	"strings"
 )
 
+/*
+Parse a file into a list of strings (lines)
+*/
 func GetLinesFromFile(inFile string) []string {
 	f, err := os.Open(inFile)
 	if err != nil {
@@ -16,10 +19,14 @@ func GetLinesFromFile(inFile string) []string {
 	if err != nil {
 		panic(err)
 	}
-	return strings.Split(string(bytes), "\n")
+	lines := strings.Split(string(bytes), "\n")
+	return lines
 }
 
-func GetByteArrayNoNewlinesFromFile(inFile string) []byte {
+/*
+Parse a file into a rectangular grid, and get width and height.
+*/
+func GetByteArrayNoNewlinesFromFile(inFile string) ([]byte, int, int) {
 	f, err := os.Open(inFile)
 	if err != nil {
 		panic(err)
@@ -28,5 +35,9 @@ func GetByteArrayNoNewlinesFromFile(inFile string) []byte {
 	if err != nil {
 		panic(err)
 	}
-	return bytes.ReplaceAll(byteArray, []byte{'\n'}, []byte{})
+	lines := bytes.Split(byteArray, []byte{'\n'})
+	width := len(lines[0])
+	height := len(lines)
+	data := bytes.ReplaceAll(byteArray, []byte{'\n'}, []byte{})
+	return data, width, height
 }

@@ -1,4 +1,4 @@
 package probs
 
-func Day23(isDayTwo bool, inFile string) {
+func Day23(isPartTwo bool, inFile string) {
 }

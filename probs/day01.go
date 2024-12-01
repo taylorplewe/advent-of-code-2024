@@ -3,41 +3,60 @@ package probs
 import (
 	"aoc/utils"
 	"fmt"
+	"regexp"
 	"slices"
 	"strconv"
 )
 
-var elvesInv []int
+var leftNums []int
+var rightNums []int
+var rightNumOccurrences map[int]int
 
 func Day01(isPartTwo bool, inFile string) {
 	lines := utils.GetLinesFromFile(inFile)
-	elvesInv = make([]int, 0)
-	elvesInv = append(elvesInv, 0)
-	elfInd := 0
-	highestInv := 0
-	highestElfInd := 0
+	leftNums = make([]int, 0)
+	rightNums = make([]int, 0)
+	rightNumOccurrences = make(map[int]int)
 
 	for _, line := range lines {
-		if len(line) == 0 {
-			elfInd++
-			elvesInv = append(elvesInv, 0)
-		} else {
-			num, _ := strconv.Atoi(line)
-			elvesInv[elfInd] += num
-			if elvesInv[elfInd] > highestInv {
-				highestInv = elvesInv[elfInd]
-				highestElfInd = elfInd
-			}
+		reg := regexp.MustCompile(`(\d+)\s*(\d+)`)
+		matches := reg.FindStringSubmatch(line)
+		if len(matches) < 3 {
+			continue
 		}
-	}
 
-	fmt.Println("highest inv elf:", highestElfInd+1)
-	fmt.Println("highest inv", highestInv)
+		lNum, _ := strconv.Atoi(matches[1])
+		rNum, _ := strconv.Atoi(matches[2])
+		leftNums = append(leftNums, lNum)
+		rightNums = append(rightNums, rNum)
+		if _, exists := rightNumOccurrences[rNum]; !exists {
+			rightNumOccurrences[rNum] = 0
+		}
+		rightNumOccurrences[rNum]++
+
+	}
 
 	if !isPartTwo {
-		return
+		slices.Sort(leftNums)
+		slices.Sort(rightNums)
+
+		totalDiff := 0
+		for i := range leftNums {
+			if rightNums[i] > leftNums[i] {
+				totalDiff += rightNums[i] - leftNums[i]
+			} else {
+				totalDiff += leftNums[i] - rightNums[i]
+			}
+		}
+
+		// fmt.Println(leftNums)
+		// fmt.Println(rightNums)
+		fmt.Println("diff", totalDiff)
+	} else {
+		totalDiff := 0
+		for _, lNum := range leftNums {
+			totalDiff += lNum * rightNumOccurrences[lNum]
+		}
+		fmt.Println("part two total:", totalDiff)
 	}
-	slices.Sort(elvesInv)
-	slices.Reverse(elvesInv)
-	fmt.Println("top three elves inv:", elvesInv[0]+elvesInv[1]+elvesInv[2])
 }
