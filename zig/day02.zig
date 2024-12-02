@@ -16,7 +16,7 @@ pub fn main() !void {
 
     var num_good_lines: u32 = 0;
     while (lines_it.next()) |line| {
-        if (try isLineSafe(line)) num_good_lines += 1 else {
+        if (try isLineSafe(line)) num_good_lines += 1 else if (IS_PART_TWO) {
             const num_numbers = utils.countTokensScalar(u8, line, ' ');
             for (0..num_numbers) |i_to_omit| {
                 var num_it = std.mem.tokenizeScalar(u8, line, ' ');
