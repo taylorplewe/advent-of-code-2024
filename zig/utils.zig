@@ -11,3 +11,10 @@ pub fn getLinesIteratorForFile(allocator: std.mem.Allocator, filename: []const u
 pub fn intAbs(val: i32) i32 {
     return if (val >= 0) val else (val ^ -1) + 1;
 }
+
+pub fn countTokensScalar(comptime t: type, buf: []const u8, delimiter: u8) u32 {
+    var it = std.mem.tokenizeScalar(t, buf, delimiter);
+    var num_tokens: u32 = 0;
+    while (it.next() != null) num_tokens += 1;
+    return num_tokens;
+}

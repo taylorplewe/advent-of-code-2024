@@ -1,6 +1,8 @@
 const std = @import("std");
 const utils = @import("utils.zig");
 
+const IS_PART_TWO = true;
+
 pub fn main() !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
     defer arena.deinit();
@@ -14,8 +16,22 @@ pub fn main() !void {
 
     var num_good_lines: u32 = 0;
     while (lines_it.next()) |line| {
-        if (try isLineSafe(line)) {
-            num_good_lines += 1;
+        if (try isLineSafe(line)) num_good_lines += 1 else {
+            const num_numbers = utils.countTokensScalar(u8, line, ' ');
+            for (0..num_numbers) |i_to_omit| {
+                var num_it = std.mem.tokenizeScalar(u8, line, ' ');
+                var sliced_str = std.ArrayList(u8).init(arena.allocator());
+                var i: usize = 0;
+                while (num_it.next()) |num_str| : (i += 1) {
+                    const num_plus_space = try std.fmt.allocPrint(arena.allocator(), "{s} ", .{num_str});
+                    if (i != i_to_omit) try sliced_str.appendSlice(num_plus_space);
+                }
+
+                if (try isLineSafe(sliced_str.items)) {
+                    num_good_lines += 1;
+                    break;
+                }
+            }
         }
     }
 
