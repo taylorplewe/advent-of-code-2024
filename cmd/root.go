@@ -15,7 +15,7 @@ import (
 
 var rootCmd = &cobra.Command{
 	Use:   "aoc",
-	Short: "Run an Advent of Code problem; just provide day number (e.g. \"1\") with optional \".2\" for part 2 of the problem",
+	Short: `Run an Advent of Code problem; just provide day number (e.g. "1") with optional ".2" for part 2 of the problem`,
 	Run:   GetDayArgsAndExecute,
 	Args:  cobra.RangeArgs(1, 2),
 }
