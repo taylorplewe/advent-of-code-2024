@@ -7,3 +7,7 @@ pub fn getLinesIteratorForFile(allocator: std.mem.Allocator, filename: []const u
     const it = std.mem.splitScalar(u8, buf, '\n');
     return it;
 }
+
+pub fn intAbs(val: i32) i32 {
+    return if (val >= 0) val else (val ^ -1) + 1;
+}
