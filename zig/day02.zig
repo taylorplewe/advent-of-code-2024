@@ -7,13 +7,15 @@ pub fn main() !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
     defer arena.deinit();
 
+    // get filename from arg list
     const args = try std.process.argsAlloc(arena.allocator());
     if (args.len < 2) {
         std.debug.print("\x1b[31mERROR: must provide filename\x1b[0m\n", .{});
         return;
     }
-    var lines_it = try utils.getLinesIteratorForFile(arena.allocator(), args[1]);
 
+    // iterate over every line of file, counting good lines
+    var lines_it = try utils.getLinesIteratorForFile(arena.allocator(), args[1]);
     var num_good_lines: u32 = 0;
     while (lines_it.next()) |line| {
         if (try isLineSafe(line)) num_good_lines += 1 else if (IS_PART_TWO) {

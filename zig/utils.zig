@@ -18,3 +18,7 @@ pub fn countTokensScalar(comptime t: type, buf: []const u8, delimiter: u8) u32 {
     while (it.next() != null) num_tokens += 1;
     return num_tokens;
 }
+
+pub fn printError(msg: []const u8) void {
+    std.debug.print("{s}{s}{s}\n", .{ "\x1b[31mERROR: ", msg, "\x1b[0m" });
+}
