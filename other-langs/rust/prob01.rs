@@ -3,7 +3,10 @@ use std::fs;
 const IS_PART_TWO: bool = true;
 
 fn main() {
-    let contents = fs::read_to_string("assets/prob.txt")
+    // get file name from command line arg
+    let filename = std::env::args().skip(1).next().expect("No file name provided");
+
+    let contents = fs::read_to_string(&filename)
         .expect("Something went wrong reading the file");
 
     let mut lefts: Vec<i32> = Vec::new();
